@@ -11,7 +11,7 @@
 
         <table class="table" id="patientsTable">
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Telp</th>
@@ -20,15 +20,15 @@
             </tr>
             @foreach ($patients as $p)
                 <tr id="row-{{ $p->id }}">
-                    <td>{{ $p->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $p->name }}</td>
                     <td>{{ $p->address }}</td>
                     <td>{{ $p->telp }}</td>
                     <td>{{ $p->hospital->name }}</td>
                     <td>
-                        <button class="btn btn-primary btn-edit" data-id="{{ $p->id }}"
-                            data-nama="{{ $p->name }}" data-alamat="{{ $p->address }}"
-                            data-telepon="{{ $p->telp }}" data-hospital="{{ $p->hospital_id }}">Edit</button>
+                        <button class="btn btn-primary btn-edit" data-id="{{ $p->id }}" data-nama="{{ $p->name }}"
+                            data-alamat="{{ $p->address }}" data-telepon="{{ $p->telp }}"
+                            data-hospital="{{ $p->hospital_id }}">Edit</button>
                         <button class="btn btn-danger btn-delete" data-id="{{ $p->id }}">Hapus</button>
                     </td>
                 </tr>
@@ -152,34 +152,6 @@
     @endif
 
     <script>
-        $('#filterHospital').change(function() {
-            $.get("{{ route('patients.index') }}", {
-                hospital_id: $(this).val()
-            }, function(res) {
-                let html =
-                    "<tr><th>ID</th><th>Nama</th><th>Alamat</th><th>Telp</th><th>Rumah Sakit</th><th>Aksi</th></tr>";
-                res.forEach(p => {
-                    html += `<tr id="row-${p.id}">
-                <td>${p.id}</td>
-                <td>${p.nama}</td>
-                <td>${p.alamat}</td>
-                <td>${p.telepon}</td>
-                <td>${p.hospital ? p.hospital.nama : ''}</td>
-                <td>
-                    <button class="btn btn-primary btn-edit" 
-                        data-id="${p.id}"
-                        data-nama="${p.nama}"
-                        data-alamat="${p.alamat}"
-                        data-telepon="${p.telepon}"
-                        data-hospital="${p.hospital_id}">Edit</button>
-                    <button class="btn btn-danger btn-delete" data-id="${p.id}">Hapus</button>
-                </td>
-            </tr>`;
-                });
-                $("#patientsTable").html(html);
-            });
-        });
-
         $(document).on('click', '.btn-delete', function() {
             if (confirm("Hapus data?")) {
                 let id = $(this).data('id');
@@ -214,7 +186,6 @@
                 url: '/patients/' + id,
                 type: 'POST',
                 data: $(this).serialize() + "&_method=PUT",
-                UT
                 success: () => location.reload(),
                 error: function(xhr) {
                     if (xhr.status === 422) {

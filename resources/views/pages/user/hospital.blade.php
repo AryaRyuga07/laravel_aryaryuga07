@@ -10,7 +10,7 @@
         <hr>
         <table class="table">
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Email</th>
@@ -19,7 +19,7 @@
             </tr>
             @foreach ($hospitals as $h)
                 <tr id="row-{{ $h->id }}">
-                    <td>{{ $h->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $h->name }}</td>
                     <td>{{ $h->address }}</td>
                     <td>{{ $h->email }}</td>
