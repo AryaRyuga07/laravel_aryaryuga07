@@ -12,12 +12,34 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-    {
-        // User::factory(10)->create();
+{
+    \App\Models\User::create([
+        'username'=>'admin',
+        'email' => 'admin@gmail.com',
+        'password'=>bcrypt('123456'),
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-    }
+    ]);
+
+    $h1 = \App\Models\Hospital::create([
+        'name'=>'RS Harapan',
+        'address'=>'Jl. Merdeka',
+        'email'=>'rs@harapan.com',
+        'telp'=>'081111111'
+    ]);
+
+    $h2 = \App\Models\Hospital::create([
+        'name'=>'RS Kasih',
+        'address'=>'Jl. Sudirman',
+        'email'=>'rs@kasih.com',
+        'telp'=>'082222222'
+    ]);
+
+    \App\Models\Patient::create([
+        'name'=>'Budi',
+        'address'=>'Bandung',
+        'telp'=>'083333333',
+        'hospital_id'=>$h1->id
+    ]);
+}
+
 }
